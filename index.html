@@ -1,0 +1,774 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Para Eli 🌻</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #fff8dc;
+            font-family: Georgia, serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* =========================
+           CONTENEDOR PRINCIPAL
+        ========================= */
+
+        .historia {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           PANTALLAS
+        ========================= */
+
+        .pagina {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 1s ease,
+                transform 1s ease;
+
+            transform: scale(1.03);
+
+            z-index: 2;
+        }
+
+        .pagina.activa {
+            opacity: 1;
+            visibility: visible;
+
+            transform: scale(1);
+
+            z-index: 3;
+        }
+
+
+        /* =========================
+           PORTADA
+        ========================= */
+
+        .portada {
+            text-align: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #fffdf0 0%,
+                    #fff8dc 60%,
+                    #f8e7a5 100%
+                );
+        }
+
+        .flor-portada {
+            font-size: 70px;
+
+            margin-bottom: 20px;
+
+            animation:
+                flotar 3s ease-in-out infinite;
+        }
+
+        .titulo-portada {
+            font-size: 34px;
+
+            color: #6b4f1d;
+
+            margin-bottom: 15px;
+        }
+
+        .subtitulo-portada {
+            font-size: 19px;
+
+            color: #80662b;
+
+            margin-bottom: 45px;
+        }
+
+
+        /* =========================
+           IMÁGENES
+        ========================= */
+
+        .pagina img {
+            max-width: 95%;
+            max-height: 78vh;
+
+            object-fit: contain;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.20);
+
+            user-select: none;
+        }
+
+
+        /* =========================
+           INDICACIÓN DE CONTINUAR
+        ========================= */
+
+        .continuar {
+            position: absolute;
+
+            bottom: 25px;
+
+            color: #6b4f1d;
+
+            font-size: 15px;
+
+            background: rgba(255, 248, 220, 0.85);
+
+            padding: 9px 18px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.10);
+
+            animation:
+                aparecer 2s ease-in-out infinite alternate;
+        }
+
+
+        /* =========================
+           BOTÓN COMENZAR
+        ========================= */
+
+        .boton-comenzar {
+
+            border: none;
+
+            padding: 15px 30px;
+
+            border-radius: 30px;
+
+            background: #f2c94c;
+
+            color: #5a4300;
+
+            font-family: Georgia, serif;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.15);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .boton-comenzar:hover {
+
+            transform: scale(1.05);
+
+            box-shadow:
+                0 7px 22px rgba(0,0,0,0.20);
+        }
+
+
+        /* =========================
+           PANTALLA DE SUSPENSO
+        ========================= */
+
+        .suspenso {
+
+            background:
+                radial-gradient(
+                    circle,
+                    #fffdf0,
+                    #fff8dc
+                );
+
+            text-align: center;
+        }
+
+        .texto-suspenso {
+
+            font-size: 28px;
+
+            color: #6b4f1d;
+
+            max-width: 85%;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           PANTALLA FINAL
+        ========================= */
+
+        .final {
+
+            text-align: center;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #fffdf0 0%,
+                    #fff8dc 60%,
+                    #f5df8a 100%
+                );
+        }
+
+        .final .flor-grande {
+
+            font-size: 75px;
+
+            margin-bottom: 20px;
+
+            animation:
+                flotar 3s ease-in-out infinite;
+        }
+
+        .final h1 {
+
+            font-size: 32px;
+
+            color: #6b4f1d;
+
+            margin-bottom: 20px;
+        }
+
+        .final p {
+
+            font-size: 21px;
+
+            color: #80662b;
+
+            line-height: 1.6;
+
+            margin-bottom: 35px;
+        }
+
+        .volver {
+
+            border: none;
+
+            background: transparent;
+
+            color: #8a6a18;
+
+            font-family: Georgia, serif;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           FLORES QUE CAEN
+        ========================= */
+
+        .flores {
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+            z-index: 10;
+        }
+
+        .flor {
+
+            position: absolute;
+
+            top: -50px;
+
+            font-size: 24px;
+
+            opacity: 0;
+
+            animation:
+                caer 9s linear infinite;
+        }
+
+
+        .flor:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .flor:nth-child(2) {
+            left: 30%;
+            animation-delay: 2s;
+        }
+
+        .flor:nth-child(3) {
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        .flor:nth-child(4) {
+            left: 70%;
+            animation-delay: 1s;
+        }
+
+        .flor:nth-child(5) {
+            left: 90%;
+            animation-delay: 3s;
+        }
+
+
+        /* =========================
+           ANIMACIONES
+        ========================= */
+
+        @keyframes caer {
+
+            0% {
+
+                transform:
+                    translateY(-50px)
+                    rotate(0deg);
+
+                opacity: 0;
+            }
+
+            15% {
+
+                opacity: 0.7;
+            }
+
+            80% {
+
+                opacity: 0.7;
+            }
+
+            100% {
+
+                transform:
+                    translateY(110vh)
+                    rotate(360deg);
+
+                opacity: 0;
+            }
+        }
+
+
+        @keyframes flotar {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes aparecer {
+
+            from {
+                opacity: 0.5;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================
+           CELULAR
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .pagina img {
+
+                max-width: 94%;
+
+                max-height: 72vh;
+            }
+
+            .titulo-portada {
+
+                font-size: 30px;
+            }
+
+            .subtitulo-portada {
+
+                font-size: 18px;
+            }
+
+            .texto-suspenso {
+
+                font-size: 24px;
+            }
+
+            .final h1 {
+
+                font-size: 29px;
+            }
+
+            .final p {
+
+                font-size: 19px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="historia">
+
+
+    <!-- =================================
+         FLORES
+    ================================== -->
+
+    <div class="flores">
+
+        <div class="flor">🌻</div>
+
+        <div class="flor">🌼</div>
+
+        <div class="flor">🌻</div>
+
+        <div class="flor">🌼</div>
+
+        <div class="flor">🌻</div>
+
+    </div>
+
+
+
+    <!-- =================================
+         PORTADA
+    ================================== -->
+
+    <section
+        class="pagina activa portada"
+        id="portada"
+        onclick="comenzar()"
+    >
+
+        <div class="flor-portada">
+            🌻
+        </div>
+
+        <h1 class="titulo-portada">
+            Para ti, Eli
+        </h1>
+
+        <p class="subtitulo-portada">
+            Tengo algo que quiero mostrarte...
+        </p>
+
+        <button class="boton-comenzar">
+            Toca para descubrirlo 💛
+        </button>
+
+    </section>
+
+
+
+    <!-- =================================
+         IMAGEN 1
+    ================================== -->
+
+    <section class="pagina">
+
+        <img src="1.jpeg">
+
+        <div class="continuar">
+            Toca para continuar 🌻
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         IMAGEN 2
+    ================================== -->
+
+    <section class="pagina">
+
+        <img src="2.jpeg">
+
+        <div class="continuar">
+            Toca para continuar 🌻
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         IMAGEN 3
+    ================================== -->
+
+    <section class="pagina">
+
+        <img src="3.jpeg">
+
+        <div class="continuar">
+            Toca para continuar 💛
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         IMAGEN 4
+    ================================== -->
+
+    <section class="pagina">
+
+        <img src="4.jpeg">
+
+        <div class="continuar">
+            Toca para continuar 🌼
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         IMAGEN 5
+    ================================== -->
+
+    <section class="pagina">
+
+        <img src="5.jpeg">
+
+        <div class="continuar">
+            Toca para continuar 🌻
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         IMAGEN 6
+    ================================== -->
+
+    <section class="pagina">
+
+        <img src="6.jpeg">
+
+        <div class="continuar">
+            Toca para continuar 💛
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         FINAL
+    ================================== -->
+
+    <section class="pagina final">
+
+        <div class="flor-grande">
+            🌻
+        </div>
+
+        <h1>
+            Para ti, Eli 💛
+        </h1>
+
+        <p>
+            Espero que te haya gustado.
+            <br>
+            Te quiero mucho.
+        </p>
+
+        <button
+            class="volver"
+            onclick="reiniciar(event)"
+        >
+            Volver a ver la historia ↻
+        </button>
+
+    </section>
+
+
+</div>
+
+
+
+<script>
+
+    /* =================================
+       VARIABLES
+    ================================== */
+
+    let paginaActual = 0;
+
+    const paginas =
+        document.querySelectorAll(".pagina");
+
+
+
+    /* =================================
+       COMENZAR HISTORIA
+    ================================== */
+
+    function comenzar() {
+
+        paginas[paginaActual]
+            .classList
+            .remove("activa");
+
+        paginaActual = 1;
+
+        paginas[paginaActual]
+            .classList
+            .add("activa");
+    }
+
+
+
+    /* =================================
+       SIGUIENTE
+    ================================== */
+
+    function siguiente() {
+
+        if (paginaActual < paginas.length - 1) {
+
+            paginas[paginaActual]
+                .classList
+                .remove("activa");
+
+            paginaActual++;
+
+            paginas[paginaActual]
+                .classList
+                .add("activa");
+        }
+    }
+
+
+
+    /* =================================
+       TOCAR PANTALLA
+    ================================== */
+
+    document
+        .querySelector(".historia")
+        .addEventListener("click", function(event) {
+
+            /*
+             Evitamos avanzar cuando
+             se presiona el botón final.
+            */
+
+            if (
+                event.target.classList.contains("volver")
+            ) {
+                return;
+            }
+
+
+            /*
+             La portada tiene su propia función.
+            */
+
+            if (paginaActual === 0) {
+                return;
+            }
+
+
+            /*
+             Avanzamos mientras
+             no estemos en la pantalla final.
+            */
+
+            if (
+                paginaActual < paginas.length - 1
+            ) {
+
+                siguiente();
+
+            }
+
+        });
+
+
+
+    /* =================================
+       VOLVER A COMENZAR
+    ================================== */
+
+    function reiniciar(event) {
+
+        event.stopPropagation();
+
+        paginas[paginaActual]
+            .classList
+            .remove("activa");
+
+        paginaActual = 0;
+
+        paginas[paginaActual]
+            .classList
+            .add("activa");
+    }
+
+</script>
+
+</body>
+</html>
