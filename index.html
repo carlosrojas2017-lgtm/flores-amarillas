@@ -22,6 +22,7 @@
             width: 100vw;
             height: 100vh;
         }
+	
 
         /* =========================
            CONTENEDOR PRINCIPAL
@@ -466,6 +467,10 @@
 
 <body>
 
+<audio id="musica" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
 <div class="historia">
 
 
@@ -666,18 +671,23 @@
        COMENZAR HISTORIA
     ================================== */
 
-    function comenzar() {
+  function comenzar() { 
+ 
+    paginas[paginaActual] 
+        .classList 
+        .remove("activa"); 
+ 
+    paginaActual = 1; 
+ 
+    paginas[paginaActual] 
+        .classList 
+        .add("activa");
 
-        paginas[paginaActual]
-            .classList
-            .remove("activa");
-
-        paginaActual = 1;
-
-        paginas[paginaActual]
-            .classList
-            .add("activa");
-    }
+    // Iniciar música
+    const musica = document.getElementById("musica");
+    musica.volume = 0.4;
+    musica.play();
+}
 
 
 
